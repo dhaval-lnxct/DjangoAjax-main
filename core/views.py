@@ -75,8 +75,8 @@ def save_data(request):
             # Student.objects.annotate(
             # name=Value(('name'), output_field=CharField()).capitalize()
 # )    
-            #stu = Student.objects.values().order_by(Length('name')).order_by('name')
-            stu = Student.objects.values().order_by(Length('name'))
+            stu = Student.objects.values().order_by(Length('name')).order_by('name')
+            #stu = Student.objects.values().order_by(Length('name'))
             # stu = Student.objects.all().update(name='capitalize')
             # stu.name = stu.name[0].capitalize() + stu.name[1:]
             # stu.save()
