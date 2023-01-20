@@ -9,6 +9,8 @@ $('#btnsave').click(function(){
     let e = $('#emailid').val();
     let c = $('#courseid').val();
 
+    
+    var cap = n.charAt(0).toUpperCase() + n.slice(1)
     console.log(sid);
 
     if(n == ""){
@@ -22,7 +24,7 @@ $('#btnsave').click(function(){
         //console.log(e);
         //console.log(c);
 
-        mydata = {stuid:sid, name:n,email:e, course:c};
+        mydata = {stuid:sid, name:cap, email:e, course:c};
 
         $.ajax({
             url: "{% url 'save' %}",
@@ -60,7 +62,7 @@ $('#btnsave').click(function(){
                  console.log('Unable Submit Data');
                  $('#stuid').val("");
              }
-             alert('save this data?');
+             //alert('save this data?');
              
             }
         });
@@ -71,7 +73,7 @@ $('#btnsave').click(function(){
 // Delete
 $('#tbody').on("click", ".btn-del", function(){
     console.log("Delete Button Cliked");
-    var x = document.getElementById("demo").onclick = alert("Do you want to delete this data?");
+    //var x = document.getElementById("demo").onclick = alert("Do you want to delete this data?");
     
     let id = $(this).attr("data-sid");
 

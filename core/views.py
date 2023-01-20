@@ -1,5 +1,5 @@
-from django.http import JsonResponse
-from django.http import HttpResponse
+from django.http import JsonResponse,HttpResponse
+#from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User 
 from .forms import StudentForm
@@ -7,6 +7,7 @@ from .models import *
 from django.contrib import messages
 from django.db.models.functions import Length
 from django.contrib.auth import authenticate,login
+# from  django.db.models import Value, CharField
 from django.views.decorators.csrf import csrf_exempt
 
 def signup(request):
@@ -60,6 +61,8 @@ def save_data(request):
         if form.is_valid():
             sid = request.POST.get('stuid')
             name = request.POST['name']
+            #name.title()    
+            #print(name)
             email = request.POST['email']
             course = request.POST['course']
             #print('student id',sid)
@@ -68,9 +71,15 @@ def save_data(request):
                 s = Student(name=name, email=email, course=course)
             else:
                 s = Student(id=sid, name=name, email=email, course=course)
-            s.save()
-
-            stu = Student.objects.values().order_by(Length('name')).order_by('name')
+            s.save()  
+            # Student.objects.annotate(
+            # name=Value(('name'), output_field=CharField()).capitalize()
+# )    
+            #stu = Student.objects.values().order_by(Length('name')).order_by('name')
+            stu = Student.objects.values().order_by(Length('name'))
+            # stu = Student.objects.all().update(name='capitalize')
+            # stu.name = stu.name[0].capitalize() + stu.name[1:]
+            # stu.save()
             #len = Student.objects.values_list('name', flat=True)
             #for i in len:
              #print(i)
