@@ -17,11 +17,19 @@
 	{% comment %} <link rel="stylesheet" type="text/css" href="styles.css"> {% endcomment %}
 </head>
 <body>
+	
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
 				<h3>Sign In</h3>
+
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+		<strong>Sorry,</strong>Please enter correct Username or Password ...
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	  </div>
+    {% endfor %}
 				<div class="d-flex justify-content-end social_icon">
 					<span><i class="fab fa-facebook-square"></i></span>
 					<span><i class="fab fa-google-plus-square"></i></span>

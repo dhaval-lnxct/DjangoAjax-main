@@ -7,6 +7,7 @@ from .models import *
 from django.contrib import messages
 from django.db.models.functions import Length
 from django.contrib.auth import authenticate,login
+from django.contrib.auth import login as ln
 # from  django.db.models import Value, CharField
 from django.views.decorators.csrf import csrf_exempt
 
@@ -18,7 +19,7 @@ def signup(request):
         try:
             if User.objects.filter(username=username).first():
                 messages.success(request, 'User is already registered')
-                return redirect('/home')
+                return redirect('/')
 
             if User.objects.filter(email=email).first():
                 messages.success(request, 'Email is already registered')
@@ -40,10 +41,10 @@ def login(request):
         user=authenticate(username = username,password=password)
         print(user)
         if user is not None:
-            login(request,user)
-            return redirect('home')
+            ln(request,user)
+            return redirect('/home')
         else:
-            return HttpResponse("Something went wrong")
+            messages.error(request, 'your password is incorrect..Please enter correctly')
     return render(request,'core/login.html')
 
 
