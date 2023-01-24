@@ -10,6 +10,9 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth import login as ln
 # from  django.db.models import Value, CharField
 from django.views.decorators.csrf import csrf_exempt
+import uuid 
+from django.conf import settings 
+from django.core.mail import send_mail
 
 def signup(request):
     if request.method == 'POST':
@@ -28,6 +31,9 @@ def signup(request):
             user_obj= User.objects.create(username=username, email=email)
             user_obj.set_password(password)
             user_obj.save()
+            auth_token = str(uuid.uuid4())
+            send_mail_after_registration(email,auth_token)
+            return redirect('token')
             return render(request,'core/login.html')
         except Exception as e:
             print(e)
@@ -39,7 +45,7 @@ def login(request):
         #email= request.POST.get('email')
         password= request.POST.get('pass')
         user=authenticate(username = username,password=password)
-        print(user)
+        # print(user)
         if user is not None:
             ln(request,user)
             return redirect('/home')
@@ -116,6 +122,16 @@ def edit_data(request):
         student_data = {'id':student.id, 'name':student.name, 'email':student.email, 'course':student.course}
         return JsonResponse(student_data)
 
+
+# function for send mail
+
+@csrf_exempt
+def send_mail_after_registration(email):
+   subject = 'Your  account need to verify...'
+   messages = f'Hi!click the link to verify your account http://127.0.0.1:8000/home/'
+   email_from = settings.EMAIL_HOST_USER 
+   recipient_list = [email]
+   send_mail(subject,messages ,email_from,recipient_list)
 
 
 
